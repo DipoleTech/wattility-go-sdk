@@ -1,6 +1,7 @@
 package wattility_go_sdk
 
 import (
+	"errors"
 	"github.com/go-resty/resty/v2"
 	"strconv"
 	"time"
@@ -14,11 +15,15 @@ type Client struct {
 	sign      *Sign
 }
 
+var (
+	ErrorApp = errors.New("app id or app secret is error")
+)
+
 func NewClient(appId, appSecret string) (*Client, error) {
 	if len(appId) != 16 || len(appSecret) != 32 {
-		return nil, nil
+		return nil, ErrorApp
 	}
-	sign := NewSign(appSecret)
+	sign, _ := NewSign(appSecret)
 	client := &Client{
 		AppId:     appId,
 		AppSecret: appSecret,

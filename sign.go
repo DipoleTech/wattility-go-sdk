@@ -15,14 +15,17 @@ type Sign struct {
 	iv       string
 }
 
-func NewSign(secret string) *Sign {
+func NewSign(secret string) (*Sign, error) {
+	if len(secret) != 32 {
+		return nil, ErrorApp
+	}
 	size := aes.BlockSize
 	keyBlock, _ := aes.NewCipher([]byte(secret))
 	return &Sign{
 		secret:   secret,
 		keyBlock: keyBlock,
 		iv:       secret[:size],
-	}
+	}, nil
 }
 
 func (sa *Sign) Content(method, rawQuery, random, body string, ts int64) string {
