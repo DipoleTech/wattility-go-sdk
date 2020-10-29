@@ -30,7 +30,7 @@ func NewClient(appId, appSecret string) (*Client, error) {
 	return client, nil
 }
 
-func (c *Client) do(uri, method string, body []byte) {
+func (c *Client) do(uri, method string, body []byte) (res *resty.Response, err error) {
 	ts := time.Now().UTC().Unix()
 	random := "123"
 	content := c.sign.Content(method, uri, random, string(body), ts)
@@ -48,5 +48,6 @@ func (c *Client) do(uri, method string, body []byte) {
 		"Content-Type":      "application/json",
 	})
 
-	_, _ = c.Client.R().SetBody(body).Execute(method, c.Host+uri)
+	res, err = c.Client.R().SetBody(body).Execute(method, c.Host+uri)
+	return
 }
