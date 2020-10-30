@@ -1,6 +1,7 @@
 package wattility_go_sdk
 
 import (
+	"encoding/json"
 	"errors"
 	"github.com/go-resty/resty/v2"
 	"strconv"
@@ -19,6 +20,12 @@ var (
 	ErrorApp = errors.New("app id or app secret is error")
 )
 
+type ResBody struct {
+	Code    int64       `json:"code"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
+}
+
 func NewClient(appId, appSecret string) (*Client, error) {
 	if len(appId) != 16 || len(appSecret) != 32 {
 		return nil, ErrorApp
@@ -31,6 +38,17 @@ func NewClient(appId, appSecret string) (*Client, error) {
 		Client:    resty.New(),
 		Host:      "http://localhost:9001",
 	}
+	client.Client.OnAfterResponse(func(client *resty.Client, response *resty.Response) error {
+		var data ResBody
+		err := json.Unmarshal(response.Body(), &data)
+		if err != nil {
+			return err
+		}
+		if data.Code != 0 {
+			return errors.New(data.Message)
+		}
+		return nil
+	})
 
 	return client, nil
 }

@@ -1,10 +1,12 @@
 package wattility_go_sdk
 
-func (c *Client) CheckAccessAPI() error {
+import "github.com/go-resty/resty/v2"
+
+func (c *Client) CheckAccessAPI() (*resty.Response, error) {
 	var url = "/v1/open_api/check_access"
-	_, err := c.do(url, "GET", nil)
+	res, err := c.do(url, "GET", []byte(""))
 	if err != nil {
-		return err
+		return res, err
 	}
-	return nil
+	return res, nil
 }
