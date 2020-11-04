@@ -39,7 +39,7 @@ func (sa *Sign) Content(method, rawQuery, random, body string, ts int64) string 
 	return content
 }
 
-func (sa *Sign) Encrypt(content []byte) ([]byte, error) {
+func (sa *Sign) Encrypt(content []byte) []byte {
 	paddinglen := aes.BlockSize - (len(content) % aes.BlockSize)
 	for i := 0; i < paddinglen; i++ {
 		content = append(content, byte(paddinglen))
@@ -47,7 +47,7 @@ func (sa *Sign) Encrypt(content []byte) ([]byte, error) {
 	enbuf := make([]byte, len(content))
 	cbce := cipher.NewCBCEncrypter(sa.keyBlock, []byte(sa.iv))
 	cbce.CryptBlocks(enbuf, content)
-	return enbuf, nil
+	return enbuf
 }
 
 func (sa *Sign) SignBase64(sign []byte) string {

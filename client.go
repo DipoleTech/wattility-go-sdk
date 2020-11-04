@@ -62,7 +62,7 @@ func (c *Client) do(uri, method string, body []byte) (res *resty.Response, err e
 	ts := time.Now().UTC().Unix()
 	random := RandString()
 	content := c.sign.Content(method, uri, random, string(body), ts)
-	sign, _ := c.sign.Encrypt([]byte(content))
+	sign := c.sign.Encrypt([]byte(content))
 	signBase64 := c.sign.SignBase64(sign)
 	signHash := c.sign.SignHash(signBase64)
 	md5Str := c.sign.ContentMD5([]byte(content))

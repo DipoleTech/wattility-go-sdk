@@ -18,7 +18,7 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	_ = client.Client.SetProxy("http://localhost:9091")
+	_ = client.client.SetProxy("http://localhost:9091")
 }
 
 func TestClient_CheckAccessApi(t *testing.T) {
