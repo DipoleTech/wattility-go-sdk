@@ -11,7 +11,7 @@ import (
 
 type Client struct {
 	client    *resty.Client
-	Host      string
+	host      string
 	appId     string
 	appSecret string
 	sign      *Sign
@@ -41,7 +41,7 @@ func NewClient(appId, appSecret string) (*Client, error) {
 		appSecret: appSecret,
 		sign:      sign,
 		client:    resty.New(),
-		Host:      "http://localhost:9001",
+		host:      "http://localhost:9001",
 	}
 	c.client.OnAfterResponse(func(client *resty.Client, response *resty.Response) error {
 		var data ResBody
@@ -56,6 +56,10 @@ func NewClient(appId, appSecret string) (*Client, error) {
 	})
 
 	return c, nil
+}
+
+func (c *Client) SetDevHost(host string) {
+	c.host = host
 }
 
 func (c *Client) do(uri, method string, body []byte) (res *resty.Response, err error) {
@@ -76,7 +80,7 @@ func (c *Client) do(uri, method string, body []byte) (res *resty.Response, err e
 		"Content-Type":      "application/json",
 	})
 
-	res, err = c.client.R().SetBody(body).Execute(method, c.Host+uri)
+	res, err = c.client.R().SetBody(body).Execute(method, c.host+uri)
 	return
 }
 
