@@ -16,25 +16,36 @@ func (c *Client) CheckSignApi() (*resty.Response, error) {
 }
 
 type LoadBaseSummaryBody struct {
-	RecordTime    time.Time `json:"record_time"`
+	RecordAt      time.Time `json:"record_time"`
 	BaseLineValue float64   `json:"base_line_value"`
 	RealTimeValue float64   `json:"real_time_value"`
 }
 
 func (c *Client) LoadBaseSummary(body LoadBaseSummaryBody) error {
-	var url = "/v1/open_api/check_access"
+	var url = "/v1/open_api/load_base/summary_chart"
 	b, _ := json.Marshal(body)
 
-	_, err := c.do(url, "GET", b)
+	_, err := c.do(url, "POST", b)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-
 type LoadBaseInfoyBody struct {
-	RecordTime    time.Time `json:"record_time"`
-	BaseLineValue float64   `json:"base_line_value"`
-	RealTimeValue float64   `json:"real_time_value"`
+	RecordTime time.Time `json:"record_time"`
+	Season     string    `json:"season"`
+	MaxValue   float64   `json:"max_value"`
+	MinValue   float64   `json:"min_value"`
+}
+
+func (c *Client) LoadBaseInfo(body LoadBaseInfoyBody) error {
+	var url = "/v1/open_api/load_base/info"
+	b, _ := json.Marshal(body)
+
+	_, err := c.do(url, "POST", b)
+	if err != nil {
+		return err
+	}
+	return nil
 }
