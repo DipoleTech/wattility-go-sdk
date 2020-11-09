@@ -14,7 +14,6 @@ var (
 func init() {
 	var err error
 	client, err = NewClient(appId, appSecret)
-
 	if err != nil {
 		panic(err)
 	}

@@ -11,6 +11,7 @@ import (
 
 type Client struct {
 	client    *resty.Client
+	dev       bool
 	host      string
 	appId     string
 	appSecret string
@@ -39,6 +40,7 @@ func NewClient(appId, appSecret string) (*Client, error) {
 	c := &Client{
 		appId:     appId,
 		appSecret: appSecret,
+		dev:       false,
 		sign:      sign,
 		client:    resty.New(),
 		host:      "http://localhost:9001",
@@ -58,8 +60,17 @@ func NewClient(appId, appSecret string) (*Client, error) {
 	return c, nil
 }
 
-func (c *Client) SetDevHost(host string) {
+func (c *Client) SetDev() *Client {
+	c.dev = true
+	return c
+}
+
+func (c *Client) SetHost(host string) {
 	c.host = host
+}
+
+func (c *Client) SetProxy(proxy string) {
+	_ = c.client.SetProxy(proxy)
 }
 
 func (c *Client) do(uri, method string, body []byte) (res *resty.Response, err error) {
