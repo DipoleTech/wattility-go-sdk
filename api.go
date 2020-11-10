@@ -33,14 +33,18 @@ func (c *Client) LoadBaseSummary(body LoadBaseSummaryBody) error {
 }
 
 type LoadBaseInfoyBody struct {
-	RecordTime time.Time `json:"record_time"`
-	Season     string    `json:"season"`
-	MaxValue   float64   `json:"max_value"`
-	MinValue   float64   `json:"min_value"`
+	SpringMaxLoad float64 `json:"spring_max_load"`
+	SpringMinLoad float64 `json:"spring_min_load"`
+	SummerMaxLoad float64 `json:"summer_max_load"`
+	SummerMinLoad float64 `json:"summer_min_load"`
+	AutumnMaxLoad float64 `json:"autumn_max_load"`
+	AutumnMinLoad float64 `json:"autumn_min_load"`
+	WinterMaxLoad float64 `json:"winter_max_load"`
+	WinterMinLoad float64 `json:"winter_min_load"`
 }
 
 func (c *Client) LoadBaseInfo(body LoadBaseInfoyBody) error {
-	var url = "/v1/open_api/load_base/info"
+	var url = "/v1/open_api/load_base/"
 	b, _ := json.Marshal(body)
 
 	_, err := c.do(url, "POST", b)
