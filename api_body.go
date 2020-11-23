@@ -9,19 +9,26 @@ type LoadBaseSummaryBody struct {
 }
 
 type LoadBaseInfoyBody struct {
-	SpringMaxLoad float64 `json:"spring_max_load"`
-	SpringMinLoad float64 `json:"spring_min_load"`
-	SummerMaxLoad float64 `json:"summer_max_load"`
-	SummerMinLoad float64 `json:"summer_min_load"`
-	AutumnMaxLoad float64 `json:"autumn_max_load"`
-	AutumnMinLoad float64 `json:"autumn_min_load"`
-	WinterMaxLoad float64 `json:"winter_max_load"`
-	WinterMinLoad float64 `json:"winter_min_load"`
+	SpringUpMaxLoad   float64 `json:"spring_up_max_load"`
+	SpringUpMinLoad   float64 `json:"spring_up_min_load"`
+	SpringDownMaxLoad float64 `json:"spring_down_max_load"`
+	SpringDownMinLoad float64 `json:"spring_down_min_load"`
+	SummerUpMaxLoad   float64 `json:"summer_up_max_load"`
+	SummerUpMinLoad   float64 `json:"summer_up_min_load"`
+	SummerDownMaxLoad float64 `json:"summer_down_max_load"`
+	SummerDownMinLoad float64 `json:"summer_down_min_load"`
+	AutumnUpMaxLoad   float64 `json:"autumn_up_max_load"`
+	AutumnUpMinLoad   float64 `json:"autumn_up_min_load"`
+	AutumnDwonMaxLoad float64 `json:"autumn_dwon_max_load"`
+	AutumnDownMinLoad float64 `json:"autumn_down_min_load"`
+	WinterUpMaxLoad   float64 `json:"winter_up_max_load"`
+	WinterUpMinLoad   float64 `json:"winter_up_min_load"`
+	WinterDownMaxLoad float64 `json:"winter_down_max_load"`
+	WinterDownMinLoad float64 `json:"winter_down_min_load"`
 }
 
 type LoadBaseFactorBody struct {
-	Name     string  `json:"name"`
-	Label    string  `json:"label"`
-	MaxValue float64 `json:"max_value"`
-	MinValue float64 `json:"min_value"`
+	Name string `json:"name"`
+	Tag  string `json:"tag"`
+	LoadBaseInfoyBody
 }
