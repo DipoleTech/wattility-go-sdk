@@ -6,7 +6,7 @@ type LoadBaseSummaryBody struct {
 	ValueBase     float64 `json:"value_base"`     // 功率-工作日-平均值
 	ValueReal     float64 `json:"value_real"`     // 功率-工作日-最近一次数据
 	ValueWBase    float64 `json:"value_w_base"`   // 功率-周末-平均值
-	ValueWReal    float64 `json:"value_w_realz"`  // 功率-周末-最近一次数据
+	ValueWReal    float64 `json:"value_w_real"`   // 功率-周末-最近一次数据
 	ValueHBase    float64 `json:"value_h_base"`   // 功率-节假日-平均值
 	ValueHReal    float64 `json:"value_h_real"`   // 功率-节假日-最近一次数据
 }
