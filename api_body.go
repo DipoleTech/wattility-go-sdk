@@ -1,11 +1,14 @@
 package wattility_go_sdk
 
-import "time"
-
 type LoadBaseSummaryBody struct {
-	RecordAt      time.Time `json:"record_time"`
-	BaseLineValue float64   `json:"base_line_value"`
-	RealTimeValue float64   `json:"real_time_value"`
+	DatetimeStart string  `json:"datetime_start"` // 当前功率时间点
+	DatetimeEnd   string  `json:"datetime_end"`   // 当前功率时间点
+	ValueBase     float64 `json:"value"`          // 功率-工作日-平均值
+	ValueReal     float64 `json:"value_real"`     // 功率-工作日-最近一次数据
+	ValueWBase    float64 `json:"value_w"`        // 功率-周末-平均值
+	ValueWReal    float64 `json:"value_w_real"`   // 功率-周末-最近一次数据
+	ValueHBase    float64 `json:"value_h"`        // 功率-节假日-平均值
+	ValueHReal    float64 `json:"value_h_real"`   // 功率-节假日-最近一次数据
 }
 
 type LoadBaseInfoyBody struct {
@@ -28,7 +31,19 @@ type LoadBaseInfoyBody struct {
 }
 
 type LoadBaseFactorBody struct {
-	Name string `json:"name"`
-	Tag  string `json:"tag"`
+	DeviceSn          string `json:"device_sn"`          //设备号
+	DeviceName        string `json:"device_name"`        //设备名
+	Key               string `json:"key"`                //属性key
+	AttrName          string `json:"attr_name"`          //属性名
+	AdjustableTime    int    `json:"adjustable_time"`    //此设备响应时间，单位秒
+	AdjustableComplex int    `json:"adjustable_complex"` //此设备响应难度，分1,2,3级
 	LoadBaseInfoyBody
+	AdviceSpringDown string `json:"advice_spring_down"` //春季调低操作建议，例：风速降低2挡,温度降低2°
+	AdviceSpringUp   string `json:"advice_spring_up"`
+	AdviceSummerDown string `json:"advice_summer_down"`
+	AdviceSummerUp   string `json:"advice_summer_up"`
+	AdviceAutumnDown string `json:"advice_autumn_down"`
+	AdviceAutumnUp   string `json:"advice_autumn_up"`
+	AdviceWinterDown string `json:"advice_winter_down"`
+	AdviceWinterUp   string `json:"advice_winter_up"`
 }
