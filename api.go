@@ -14,7 +14,7 @@ func (c *Client) CheckSignApi() (*resty.Response, error) {
 	return res, nil
 }
 
-func (c *Client) LoadBaseSummary(body LoadBaseSummaryBody) error {
+func (c *Client) LoadBaseSummary(body []LoadBaseSummaryBody) error {
 	var url = "/v1/open_api/load_base/summary_chart"
 	b, _ := json.Marshal(body)
 
