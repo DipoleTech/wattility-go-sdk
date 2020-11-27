@@ -76,7 +76,7 @@ func (c *Client) SetProxy(proxy string) {
 func (c *Client) do(uri, method string, body []byte) (res *resty.Response, err error) {
 	ts := time.Now().UTC().Unix()
 	random := RandString()
-	content := c.sign.Content(method, uri, random, string(body), ts)
+	content := c.sign.Content(method, uri, random, ts)
 	sign := c.sign.Encrypt([]byte(content))
 	signBase64 := c.sign.SignBase64(sign)
 	signHash := c.sign.SignHash(signBase64)

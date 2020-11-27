@@ -28,13 +28,12 @@ func NewSign(secret string) (*Sign, error) {
 	}, nil
 }
 
-func (sa *Sign) Content(method, rawQuery, random, body string, ts int64) string {
+func (sa *Sign) Content(method, rawQuery, random string, ts int64) string {
 	var content = fmt.Sprint(
 		method, "\n",
 		rawQuery, "\n",
 		random, "\n",
 		ts, "\n",
-		body,
 	)
 	return content
 }
