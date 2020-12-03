@@ -22,7 +22,7 @@ type LoadBaseInfoyBody struct {
 	SummerDownMinLoad float64 `json:"summer_down_min_load"`
 	AutumnUpMaxLoad   float64 `json:"autumn_up_max_load"`
 	AutumnUpMinLoad   float64 `json:"autumn_up_min_load"`
-	AutumnDwonMaxLoad float64 `json:"autumn_dwon_max_load"`
+	AutumnDownMaxLoad float64 `json:"autumn_down_max_load"`
 	AutumnDownMinLoad float64 `json:"autumn_down_min_load"`
 	WinterUpMaxLoad   float64 `json:"winter_up_max_load"`
 	WinterUpMinLoad   float64 `json:"winter_up_min_load"`

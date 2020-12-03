@@ -17,7 +17,7 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	_ = client.client.SetProxy("http://localhost:9091")
+	//_ = client.client.SetProxy("http://localhost:9091")
 }
 
 func TestClient_CheckSignApiApi(t *testing.T) {
