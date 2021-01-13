@@ -49,6 +49,18 @@ func (sa *Sign) Encrypt(content []byte) []byte {
 	return enbuf
 }
 
+func (sa *Sign) Decrypt(src []byte) []byte {
+	blockMode := cipher.NewCBCDecrypter(sa.keyBlock, []byte(sa.iv))
+	debuf := make([]byte, len(src))
+	blockMode.CryptBlocks(debuf, src)
+
+	n := len(debuf)
+	count := int(debuf[n-1])
+	newPaddingText := debuf[:n-count]
+
+	return newPaddingText
+}
+
 func (sa *Sign) SignBase64(sign []byte) string {
 	return base64.StdEncoding.EncodeToString(sign)
 }

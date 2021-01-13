@@ -1,5 +1,10 @@
 package wattility_go_sdk
 
+type AuthBody struct {
+	AppId     string `json:"app_id"`
+	Timestamp int64  `json:"timestamp"`
+}
+
 type LoadBaseSummaryBody struct {
 	DatetimeStart string  `json:"datetime_start"` // 当前功率时间点
 	DatetimeEnd   string  `json:"datetime_end"`   // 当前功率时间点
