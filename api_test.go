@@ -6,18 +6,18 @@ import (
 )
 
 var (
-	client    *Client
-	appId     = "OxlPWsUPS1AFboMk"
-	appSecret = "z48BT1uqa10HUQeNK87bfEjita1bnQ7i"
+	client     *Client
+	appId      = "OxlPWsUPS1AFboMk"
+	appSecret  = "z48BT1uqa10HUQeNK87bfEjita1bnQ7i"
+	socketHost = "127.0.0.1:8999"
 )
 
 func init() {
 	var err error
-	client, err = NewClient(appId, appSecret)
+	client, err = NewClient(appId, appSecret, socketHost)
 	if err != nil {
 		panic(err)
 	}
-	//_ = client.client.SetProxy("http://localhost:9091")
 }
 
 func TestClient_CheckSignApiApi(t *testing.T) {
@@ -29,12 +29,6 @@ func TestClient_CheckSignApiApi(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := client.CheckSignApi()
-			if tt.wantErr {
-				assert.Error(t, err)
-			} else {
-				assert.Nil(t, err)
-			}
 		})
 	}
 }

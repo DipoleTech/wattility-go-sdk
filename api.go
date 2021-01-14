@@ -2,47 +2,44 @@ package wattility_go_sdk
 
 import (
 	"encoding/json"
-	"github.com/go-resty/resty/v2"
+	"github.com/aceld/zinx/znet"
 )
 
-func (c *Client) CheckSignApi() (*resty.Response, error) {
-	var url = "/v1/open_api/check_access"
-	res, err := c.do(url, "GET", []byte(""))
-	if err != nil {
-		return res, err
-	}
-	return res, nil
+type APIData struct {
+	AppID       string `json:"app_id"`
+	SignContent []byte `json:"sign_content"`
 }
 
 func (c *Client) LoadBaseSummary(body []LoadBaseSummaryBody) error {
-	var url = "/v1/open_api/load_base/summary_chart"
 	b, _ := json.Marshal(body)
+	bs := c.sign.Encrypt(b)
+	dp := znet.NewDataPack()
 
-	_, err := c.do(url, "POST", b)
-	if err != nil {
-		return err
+	var data = APIData{
+		AppID:       c.appId,
+		SignContent: bs,
 	}
-	return nil
-}
 
-func (c *Client) LoadBaseInfo(body LoadBaseInfoyBody) error {
-	var url = "/v1/open_api/load_base/info"
-	b, _ := json.Marshal(body)
+	msgData, _ := json.Marshal(data)
 
-	_, err := c.do(url, "POST", b)
-	if err != nil {
-		return err
-	}
+	msg, _ := dp.Pack(znet.NewMsgPackage(0, msgData))
+	_, _ = c.socketConn.Write(msg)
 	return nil
 }
 
 func (c *Client) LoadBaseFactor(body []LoadBaseFactorBody) error {
-	var url = "/v1/open_api/load_base/factor"
 	b, _ := json.Marshal(body)
+	bs := c.sign.Encrypt(b)
+	dp := znet.NewDataPack()
 
-	_, err := c.do(url, "POST", b)
-	if err != nil {
-		return err
+	var data = APIData{
+		AppID:       c.appId,
+		SignContent: bs,
 	}
+
+	msgData, _ := json.Marshal(data)
+
+	msg, _ := dp.Pack(znet.NewMsgPackage(0, msgData))
+	_, _ = c.socketConn.Write(msg)
 	return nil
 }

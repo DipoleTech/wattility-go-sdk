@@ -1,21 +1,23 @@
 package wattility_go_sdk
 
 import (
-	"encoding/json"
 	"errors"
-	"github.com/go-resty/resty/v2"
+	"fmt"
+	"github.com/aceld/zinx/znet"
+	"io"
 	"math/rand"
-	"strconv"
+	"net"
 	"time"
 )
 
 type Client struct {
-	client    *resty.Client
-	dev       bool
-	host      string
-	appId     string
-	appSecret string
-	sign      *Sign
+	socketConn net.Conn
+	socketHost string
+	dev        bool
+	host       string
+	appId      string
+	appSecret  string
+	sign       *Sign
 }
 
 var (
@@ -32,74 +34,55 @@ type ResBody struct {
 	Data    interface{} `json:"data"`
 }
 
-func NewClient(appId, appSecret string) (*Client, error) {
+func NewClient(appId, appSecret, socketHost string) (*Client, error) {
 	if len(appId) != 16 || len(appSecret) != 32 {
 		return nil, ErrorApp
 	}
 	sign, _ := NewSign(appSecret)
+	conn, _ := net.Dial("tcp", socketHost)
 	c := &Client{
-		appId:     appId,
-		appSecret: appSecret,
-		dev:       false,
-		sign:      sign,
-		client:    resty.New(),
-		host:      "http://localhost:9001",
+		appId:      appId,
+		appSecret:  appSecret,
+		dev:        false,
+		sign:       sign,
+		socketConn: conn,
+		host:       "http://localhost:9001",
 	}
-	c.client.OnAfterResponse(func(client *resty.Client, response *resty.Response) error {
-		var data ResBody
-		err := json.Unmarshal(response.Body(), &data)
-		if err != nil {
-			return err
-		}
-		if data.Code != 0 {
-			return errors.New(data.Message)
-		}
-		return nil
-	})
+	//go c.listen()
 
 	return c, nil
 }
 
-func (c *Client) SetDev() *Client {
-	c.dev = true
-	return c
-}
+func (c *Client) listen() {
+	for {
+		dp := znet.NewDataPack()
+		headData := make([]byte, dp.GetHeadLen())
+		_, err := io.ReadFull(c.socketConn, headData) //ReadFull 会把msg填充满为止
+		if err != nil {
+			fmt.Println("read head error")
+			break
+		}
 
-func (c *Client) SetHost(host string) {
-	c.host = host
-}
+		//将headData字节流 拆包到msg中
+		msgHead, err := dp.Unpack(headData)
+		if err != nil {
+			fmt.Println("server unpack err:", err)
+			return
+		}
+		if msgHead.GetDataLen() > 0 {
+			//msg 是有data数据的，需要再次读取data数据
+			msg := msgHead.(*znet.Message)
+			msg.Data = make([]byte, msg.GetDataLen())
 
-func (c *Client) SetProxy(proxy string) {
-	_ = c.client.SetProxy(proxy)
-}
+			//根据dataLen从io中读取字节流
+			_, err := io.ReadFull(c.socketConn, msg.Data)
+			if err != nil {
+				fmt.Println("server unpack data err:", err)
+				return
+			}
 
-func (c *Client) do(uri, method string, body []byte) (res *resty.Response, err error) {
-	ts := time.Now().UTC().Unix()
-	random := RandString()
-	content := c.sign.Content(method, uri, random, ts)
-	sign := c.sign.Encrypt([]byte(content))
-	signBase64 := c.sign.SignBase64(sign)
-	signHash := c.sign.SignHash(signBase64)
-	md5Str := c.sign.ContentMD5([]byte(content))
-
-	c.client.SetHeaders(map[string]string{
-		"x-oauth-app-id":    c.appId,
-		"x-oauth-random":    random,
-		"x-oauth-ts":        strconv.FormatInt(ts, 10),
-		"x-oauth-md5":       md5Str,
-		"x-oauth-sign-hash": signHash,
-		"Content-Type":      "application/json",
-	})
-
-	res, err = c.client.R().SetBody(body).Execute(method, c.host+uri)
-	return
-}
-
-func RandString() string {
-	var letters = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-	b := make([]rune, 10)
-	for i := range b {
-		b[i] = letters[rand.Intn(10)]
+			fmt.Println("==> Recv Msg: ID=", msg.Id, ", len=", msg.DataLen, ", data=", string(msg.Data))
+		}
 	}
-	return string(b)
+
 }
