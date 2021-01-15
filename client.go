@@ -11,13 +11,15 @@ import (
 )
 
 type Client struct {
-	socketConn net.Conn
-	socketHost string
-	dev        bool
-	host       string
-	appId      string
-	appSecret  string
-	sign       *Sign
+	socketConn         net.Conn
+	socketHost         string
+	dev                bool
+	host               string
+	appId              string
+	appSecret          string
+	sign               *Sign
+	LoadBaseSummaryRec func(receive string)
+	LoadBaseFactorRec  func(receive string)
 }
 
 var (
@@ -78,12 +80,21 @@ func (c *Client) StartConn() {
 				fmt.Println("server unpack data err:", err)
 				return
 			}
+			fmt.Println("==> Recv Msg: ID=", msg.Id, ", len=", msg.DataLen, ", data=", string(msg.Data))
 			switch msg.Id {
 			case 0:
+				fmt.Println("auth:", msg.Id)
+				c.Auth(string(msg.Data))
+			case 1001:
+				if c.LoadBaseSummaryRec != nil {
+					c.LoadBaseSummaryRec(string(msg.Data))
+				}
+			case 1002:
+				if c.LoadBaseFactorRec != nil {
+					c.LoadBaseFactorRec(string(msg.Data))
+				}
 			default:
 			}
-
-			fmt.Println("==> Recv Msg: ID=", msg.Id, ", len=", msg.DataLen, ", data=", string(msg.Data))
 		}
 	}
 
