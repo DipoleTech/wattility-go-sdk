@@ -48,16 +48,14 @@ func NewClient(appId, appSecret, socketHost string) (*Client, error) {
 		socketConn: conn,
 		host:       "http://localhost:9001",
 	}
-	//go c.listen()
-
 	return c, nil
 }
 
-func (c *Client) listen() {
+func (c *Client) StartConn() {
 	for {
 		dp := znet.NewDataPack()
 		headData := make([]byte, dp.GetHeadLen())
-		_, err := io.ReadFull(c.socketConn, headData) //ReadFull 会把msg填充满为止
+		_, err := io.ReadFull(c.socketConn, headData)
 		if err != nil {
 			fmt.Println("read head error")
 			break
@@ -79,6 +77,10 @@ func (c *Client) listen() {
 			if err != nil {
 				fmt.Println("server unpack data err:", err)
 				return
+			}
+			switch msg.Id {
+			case 0:
+			default:
 			}
 
 			fmt.Println("==> Recv Msg: ID=", msg.Id, ", len=", msg.DataLen, ", data=", string(msg.Data))
