@@ -11,12 +11,16 @@ import (
 )
 
 type Client struct {
-	appId              string
-	appSecret          string
-	host               string
-	socketConn         net.Conn
-	logger             Logger
-	sign               *Sign
+	appId      string
+	appSecret  string
+	host       string
+	socketConn net.Conn
+	logger     Logger
+	sign       *Sign
+	recHanle   *ReceiveHandle
+}
+
+type ReceiveHandle struct {
 	LoadBaseSummaryRec func(receive string)
 	LoadBaseFactorRec  func(receive string)
 }
@@ -60,6 +64,10 @@ func (c *Client) SetDebug() {
 	c.logger = NewLogger(true)
 }
 
+func (c *Client) SetRecHandle(handle *ReceiveHandle) {
+	c.recHanle = handle
+}
+
 func (c *Client) StartConn() {
 	conn, err := net.Dial("tcp", c.host)
 	if err != nil {
@@ -96,15 +104,14 @@ func (c *Client) StartConn() {
 			c.logger.Print(fmt.Sprint("==> Recv Msg: ID=", msg.Id, ", len=", msg.DataLen, ", data=", string(msg.Data)))
 			switch msg.Id {
 			case 0:
-				fmt.Println("auth:", msg.Id)
 				c.Auth(string(msg.Data))
 			case 1001:
-				if c.LoadBaseSummaryRec != nil {
-					c.LoadBaseSummaryRec(string(msg.Data))
+				if c.recHanle.LoadBaseSummaryRec != nil {
+					c.recHanle.LoadBaseSummaryRec(string(msg.Data))
 				}
 			case 1002:
-				if c.LoadBaseFactorRec != nil {
-					c.LoadBaseFactorRec(string(msg.Data))
+				if c.recHanle.LoadBaseFactorRec != nil {
+					c.recHanle.LoadBaseFactorRec(string(msg.Data))
 				}
 			default:
 			}
