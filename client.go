@@ -15,7 +15,7 @@ type Client struct {
 	appSecret          string
 	host               string
 	socketConn         net.Conn
-	logger             logger
+	logger             Logger
 	sign               *Sign
 	LoadBaseSummaryRec func(receive string)
 	LoadBaseFactorRec  func(receive string)

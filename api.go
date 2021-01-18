@@ -37,8 +37,12 @@ func (c *Client) Auth(messageData string) {
 
 }
 
-func (c *Client) LoadBaseSummary(body []LoadBaseSummaryBody) error {
-	b, _ := json.Marshal(body)
+func (c *Client) do(body interface{}) error {
+	b, err := json.Marshal(body)
+	if err != nil {
+		return err
+	}
+
 	bs := c.sign.Encrypt(b)
 	dp := znet.NewDataPack()
 
@@ -47,26 +51,24 @@ func (c *Client) LoadBaseSummary(body []LoadBaseSummaryBody) error {
 		SignContent: bs,
 	}
 
-	msgData, _ := json.Marshal(data)
+	msgData, err := json.Marshal(data)
+	if err != nil {
+		return err
+	}
 
-	msg, _ := dp.Pack(znet.NewMsgPackage(0, msgData))
-	_, _ = c.socketConn.Write(msg)
-	return nil
+	msg, err := dp.Pack(znet.NewMsgPackage(0, msgData))
+	if err != nil {
+		return err
+	}
+
+	_, err = c.socketConn.Write(msg)
+	return err
+}
+
+func (c *Client) LoadBaseSummary(body []LoadBaseSummaryBody) error {
+	return c.do(body)
 }
 
 func (c *Client) LoadBaseFactor(body []LoadBaseFactorBody) error {
-	b, _ := json.Marshal(body)
-	bs := c.sign.Encrypt(b)
-	dp := znet.NewDataPack()
-
-	var data = APIData{
-		AppID:       c.appId,
-		SignContent: bs,
-	}
-
-	msgData, _ := json.Marshal(data)
-
-	msg, _ := dp.Pack(znet.NewMsgPackage(0, msgData))
-	_, _ = c.socketConn.Write(msg)
-	return nil
+	return c.do(body)
 }

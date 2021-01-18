@@ -5,15 +5,15 @@ import (
 	"os"
 )
 
-type logger interface {
+type Logger interface {
 	Debug()
 	Print(string)
 }
 
-func NewLogger(debug bool) logger {
+func NewLogger(debug bool) Logger {
 	return &logging{
 		debug:  debug,
-		Logger: log.New(os.Stdout, "", log.LUTC),
+		Logger: log.New(os.Stdout, "[wattility sdk]", log.Ldate|log.Ltime|log.LUTC),
 	}
 }
 
