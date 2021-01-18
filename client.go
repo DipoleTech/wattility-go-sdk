@@ -11,12 +11,11 @@ import (
 )
 
 type Client struct {
-	socketConn         net.Conn
-	socketHost         string
-	dev                bool
-	host               string
 	appId              string
 	appSecret          string
+	host               string
+	socketConn         net.Conn
+	logger             logger
 	sign               *Sign
 	LoadBaseSummaryRec func(receive string)
 	LoadBaseFactorRec  func(receive string)
@@ -40,40 +39,47 @@ func NewClient(appId, appSecret string) (*Client, error) {
 	if len(appId) != 16 || len(appSecret) != 32 {
 		return nil, ErrorApp
 	}
-	host := "http://localhost:9001"
+	host := "localhost:8999"
 	sign, _ := NewSign(appSecret)
-	conn, _ := net.Dial("tcp", host)
 	c := &Client{
 		appId:      appId,
 		appSecret:  appSecret,
-		dev:        false,
 		sign:       sign,
-		socketConn: conn,
+		socketConn: nil,
 		host:       host,
+		logger:     NewLogger(false),
 	}
 	return c, nil
 }
 
 func (c *Client) SetHost(host string) {
-	conn, _ := net.Dial("tcp", host)
-	c.socketConn = conn
 	c.host = host
 }
 
+func (c *Client) SetDebug() {
+	c.logger = NewLogger(true)
+}
+
 func (c *Client) StartConn() {
+	conn, err := net.Dial("tcp", c.host)
+	if err != nil {
+		c.logger.Print(err.Error())
+		return
+	}
+	c.socketConn = conn
 	for {
 		dp := znet.NewDataPack()
 		headData := make([]byte, dp.GetHeadLen())
 		_, err := io.ReadFull(c.socketConn, headData)
 		if err != nil {
-			fmt.Println("read head error")
+			c.logger.Print("read head error")
 			break
 		}
 
 		//将headData字节流 拆包到msg中
 		msgHead, err := dp.Unpack(headData)
 		if err != nil {
-			fmt.Println("server unpack err:", err)
+			c.logger.Print(fmt.Sprint("server unpack err:", err))
 			return
 		}
 		if msgHead.GetDataLen() > 0 {
@@ -84,10 +90,10 @@ func (c *Client) StartConn() {
 			//根据dataLen从io中读取字节流
 			_, err := io.ReadFull(c.socketConn, msg.Data)
 			if err != nil {
-				fmt.Println("server unpack data err:", err)
+				c.logger.Print(fmt.Sprint("server unpack data err:", err))
 				return
 			}
-			fmt.Println("==> Recv Msg: ID=", msg.Id, ", len=", msg.DataLen, ", data=", string(msg.Data))
+			c.logger.Print(fmt.Sprint("==> Recv Msg: ID=", msg.Id, ", len=", msg.DataLen, ", data=", string(msg.Data)))
 			switch msg.Id {
 			case 0:
 				fmt.Println("auth:", msg.Id)

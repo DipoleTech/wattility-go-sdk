@@ -6,18 +6,18 @@ import (
 )
 
 var (
-	client     *Client
-	appId      = "OxlPWsUPS1AFboMk"
-	appSecret  = "z48BT1uqa10HUQeNK87bfEjita1bnQ7i"
-	socketHost = "127.0.0.1:8999"
+	client    *Client
+	appId     = "OxlPWsUPS1AFboMk"
+	appSecret = "z48BT1uqa10HUQeNK87bfEjita1bnQ7i"
 )
 
 func init() {
 	var err error
-	client, err = NewClient(appId, appSecret, socketHost)
+	client, err = NewClient(appId, appSecret)
 	if err != nil {
 		panic(err)
 	}
+	client.SetDebug()
 }
 
 func TestClient_CheckSignApiApi(t *testing.T) {
