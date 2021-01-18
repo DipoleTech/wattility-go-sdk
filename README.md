@@ -27,22 +27,43 @@ if err != nil {
 client.SetHost("")
 ```
 
-#### 1.2.2 设置代理转发
-
-设置转发地址
+#### 1.2.2 ~~设置代理转发~~
 
 ```
 client.SetProxy()
+```
+
+#### 1.2.3 设置Debug
+
+```go
+client.SetDebug()
+```
+
+#### 1.2.4 设置返回消息处理
+
+```go
+client.SetRecHandle(handle *ReceiveHandle)
+```
+
+#### 1.2.5 开始连接
+
+```go
+go client.StartConn()
 ```
 
 
 
 ## 2. 接口
 
-### 2.1 检查签名
+### 2.1 LoadBaseSummary
 
 ```go
-# CheckSignApi
-_, err :=client.CheckSignApi()
+client.LoadBaseSummary(body []LoadBaseSummaryBody): error
+```
+
+### 2.2 LoadBaseFactor
+
+```go
+client.LoadBaseFactor(body []LoadBaseFactorBody): error
 ```
 
