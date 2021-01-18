@@ -36,21 +36,28 @@ type ResBody struct {
 	Data    interface{} `json:"data"`
 }
 
-func NewClient(appId, appSecret, socketHost string) (*Client, error) {
+func NewClient(appId, appSecret string) (*Client, error) {
 	if len(appId) != 16 || len(appSecret) != 32 {
 		return nil, ErrorApp
 	}
+	host := "http://localhost:9001"
 	sign, _ := NewSign(appSecret)
-	conn, _ := net.Dial("tcp", socketHost)
+	conn, _ := net.Dial("tcp", host)
 	c := &Client{
 		appId:      appId,
 		appSecret:  appSecret,
 		dev:        false,
 		sign:       sign,
 		socketConn: conn,
-		host:       "http://localhost:9001",
+		host:       host,
 	}
 	return c, nil
+}
+
+func (c *Client) SetHost(host string) {
+	conn, _ := net.Dial("tcp", host)
+	c.socketConn = conn
+	c.host = host
 }
 
 func (c *Client) StartConn() {
