@@ -17,7 +17,7 @@ type Client struct {
 	socketConn net.Conn
 	logger     Logger
 	sign       *Sign
-	recHanle   *ReceiveHandle
+	recHandle  *ReceiveHandle
 }
 
 type ReceiveHandle struct {
@@ -65,7 +65,7 @@ func (c *Client) SetDebug() {
 }
 
 func (c *Client) SetRecHandle(handle *ReceiveHandle) {
-	c.recHanle = handle
+	c.recHandle = handle
 }
 
 func (c *Client) StartConn() {
@@ -106,12 +106,12 @@ func (c *Client) StartConn() {
 			case 0:
 				c.Auth(string(msg.Data))
 			case 1001:
-				if c.recHanle.LoadBaseSummaryRec != nil {
-					c.recHanle.LoadBaseSummaryRec(string(msg.Data))
+				if c.recHandle.LoadBaseSummaryRec != nil {
+					c.recHandle.LoadBaseSummaryRec(string(msg.Data))
 				}
 			case 1002:
-				if c.recHanle.LoadBaseFactorRec != nil {
-					c.recHanle.LoadBaseFactorRec(string(msg.Data))
+				if c.recHandle.LoadBaseFactorRec != nil {
+					c.recHandle.LoadBaseFactorRec(string(msg.Data))
 				}
 			default:
 			}
