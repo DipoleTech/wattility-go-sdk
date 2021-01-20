@@ -3,7 +3,6 @@ package wattility_go_sdk
 import (
 	"errors"
 	"fmt"
-	"github.com/aceld/zinx/znet"
 	"io"
 	"math/rand"
 	"net"
@@ -76,7 +75,7 @@ func (c *Client) StartConn() {
 	}
 	c.socketConn = conn
 	for {
-		dp := znet.NewDataPack()
+		dp := NewDataPack()
 		headData := make([]byte, dp.GetHeadLen())
 		_, err := io.ReadFull(c.socketConn, headData)
 		if err != nil {
@@ -92,7 +91,7 @@ func (c *Client) StartConn() {
 		}
 		if msgHead.GetDataLen() > 0 {
 			//msg 是有data数据的，需要再次读取data数据
-			msg := msgHead.(*znet.Message)
+			msg := msgHead
 			msg.Data = make([]byte, msg.GetDataLen())
 
 			//根据dataLen从io中读取字节流
