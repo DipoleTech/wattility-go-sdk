@@ -36,7 +36,7 @@ func (c *Client) Auth(messageData string) {
 
 }
 
-func (c *Client) do(body interface{}) error {
+func (c *Client) do(id uint32, body interface{}) error {
 	b, err := json.Marshal(body)
 	if err != nil {
 		return err
@@ -55,7 +55,7 @@ func (c *Client) do(body interface{}) error {
 		return err
 	}
 
-	msg, err := dp.Pack(NewMsgPackage(0, msgData))
+	msg, err := dp.Pack(NewMsgPackage(id, msgData))
 	if err != nil {
 		return err
 	}
@@ -65,9 +65,9 @@ func (c *Client) do(body interface{}) error {
 }
 
 func (c *Client) LoadBaseSummary(body []LoadBaseSummaryBody) error {
-	return c.do(body)
+	return c.do(1001, body)
 }
 
 func (c *Client) LoadBaseFactor(body []LoadBaseFactorBody) error {
-	return c.do(body)
+	return c.do(1002, body)
 }
