@@ -51,6 +51,7 @@ func NewClient(appId, appSecret string) (*Client, error) {
 		socketConn: nil,
 		host:       host,
 		logger:     NewLogger(false),
+		recHandle:  nil,
 	}
 	return c, nil
 }
