@@ -6,14 +6,15 @@ type AuthBody struct {
 }
 
 type LoadBaseSummaryBody struct {
-	DatetimeStart string  `json:"datetime_start"` // 当前功率时间点
-	DatetimeEnd   string  `json:"datetime_end"`   // 当前功率时间点
-	ValueBase     float64 `json:"value_base"`     // 功率-工作日-平均值
-	ValueReal     float64 `json:"value_real"`     // 功率-工作日-最近一次数据
-	ValueWBase    float64 `json:"value_w_base"`   // 功率-周末-平均值
-	ValueWReal    float64 `json:"value_w_real"`   // 功率-周末-最近一次数据
-	ValueHBase    float64 `json:"value_h_base"`   // 功率-节假日-平均值
-	ValueHReal    float64 `json:"value_h_real"`   // 功率-节假日-最近一次数据
+	HouseholdNumber string  `json:"household_number"` // 户号
+	DatetimeStart   string  `json:"datetime_start"`   // 当前功率时间点
+	DatetimeEnd     string  `json:"datetime_end"`     // 当前功率时间点
+	ValueBase       float64 `json:"value_base"`       // 功率-工作日-平均值
+	ValueReal       float64 `json:"value_real"`       // 功率-工作日-最近一次数据
+	ValueWBase      float64 `json:"value_w_base"`     // 功率-周末-平均值
+	ValueWReal      float64 `json:"value_w_real"`     // 功率-周末-最近一次数据
+	ValueHBase      float64 `json:"value_h_base"`     // 功率-节假日-平均值
+	ValueHReal      float64 `json:"value_h_real"`     // 功率-节假日-最近一次数据
 }
 
 type LoadBaseInfoyBody struct {
@@ -36,6 +37,7 @@ type LoadBaseInfoyBody struct {
 }
 
 type LoadBaseFactorBody struct {
+	HouseholdNumber   string `json:"household_number"`   // 户号
 	DeviceSn          string `json:"device_sn"`          //设备号
 	DeviceName        string `json:"device_name"`        //设备名
 	Key               string `json:"key"`                //属性key
