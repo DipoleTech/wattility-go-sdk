@@ -20,8 +20,8 @@ type Client struct {
 }
 
 type ReceiveHandle struct {
-	LoadBaseSummaryRec func(receive string)
-	LoadBaseFactorRec  func(receive string)
+	LoadBaseSummaryRec func(receive []byte)
+	LoadBaseFactorRec  func(receive []byte)
 }
 
 var (
@@ -30,12 +30,6 @@ var (
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
-}
-
-type ResBody struct {
-	Code    int64       `json:"code"`
-	Message string      `json:"message"`
-	Data    interface{} `json:"data"`
 }
 
 func NewClient(appId, appSecret string) (*Client, error) {
@@ -107,15 +101,14 @@ func (c *Client) StartConn() {
 				c.Auth(string(msg.Data))
 			case 1001:
 				if c.recHandle.LoadBaseSummaryRec != nil {
-					c.recHandle.LoadBaseSummaryRec(string(msg.Data))
+					go c.recHandle.LoadBaseSummaryRec(msg.Data)
 				}
 			case 1002:
 				if c.recHandle.LoadBaseFactorRec != nil {
-					c.recHandle.LoadBaseFactorRec(string(msg.Data))
+					go c.recHandle.LoadBaseFactorRec(msg.Data)
 				}
 			default:
 			}
 		}
 	}
-
 }
