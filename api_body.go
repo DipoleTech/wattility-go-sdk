@@ -12,9 +12,6 @@ type LoadBaseSummaryBody struct {
 	HouseholdNumber string  `json:"household_number"` // 户号
 	RecordAt        string  `json:"record_at"`        // 当前功率时间点
 	PredictedValue  float64 `json:"power"`            // 瞬时功率 预测值
-	BaseValue       float64 `json:"base_value"`       // 基线值
-	RealValue       float64 `json:"real_value"`       // 实时值
-	SettlementValue float64 `json:"settlement_value"` // 结算值
 }
 
 // 发电因子
@@ -42,7 +39,8 @@ type LoadBaseFactorBody struct {
 	WinterDownMinLoad float64 `json:"winter_down_min_load"` // 冬季
 }
 
-type OrderBody struct {
+// 指令创建后服务端发送指令
+type OrderPendingBody struct {
 	OrderId       uint64    `json:"order_id"`
 	OrderName     string    `json:"order_name"`
 	OrderType     string    `json:"order_type"`
@@ -52,15 +50,40 @@ type OrderBody struct {
 	ExpiredAt     time.Time `json:"expired_at"`   // 响应结束时间
 	DeadlineAt    time.Time `json:"deadline_at"`  // 截止时间
 	HouseholdData []struct {
-		Strategy []string `json:"strategy"`
+		HouseholdNumber string  `json:"household_number"`
+		Power           float64 `json:"power"` // 分配量
+		Summary         []struct {
+			RecordAt       string  `json:"record_at"`  // 当前功率时间点
+			PredictedValue float64 `json:"power"`      // 瞬时功率 预测值
+			BaseValue      float64 `json:"base_value"` // 基线值
+		}
 	} `json:"household_data"`
 }
 
+// 指令创建后客户端发送策略
+type OrderPendingStrategyBody struct {
+	OrderId       uint64 `json:"order_id"`
+	HouseholdData []struct {
+		HouseholdNumber string   `json:"household_number"` // 户号
+		Strategy        []string `json:"strategy"`         // 策略
+	} `json:"household_data"`
+}
+
+// 指令确认发布后服务端发送策略
+type OrderConfirmedBody struct {
+	OrderId       uint64 `json:"order_id"`
+	HouseholdData []struct {
+		HouseholdNumber string   `json:"household_number"` // 户号
+		Strategy        []string `json:"strategy"`         // 策略
+	} `json:"household_data"`
+}
+
+// 指令结束后服务端发送数据
 type OrderFinishBody struct {
 	OrderId       uint64 `json:"order_id"`
 	HouseholdData []struct {
-		HouseholdNumber string `json:"household_number"`
-		CorrectPercent  int    `json:"correct_percent"` // 准确率
+		HouseholdNumber string `json:"household_number"` // 户号
+		CorrectPercent  int    `json:"correct_percent"`  // 准确率
 		Summary         []struct {
 			RecordAt        string  `json:"record_at"`        // 当前功率时间点
 			PredictedValue  float64 `json:"power"`            // 瞬时功率 预测值
