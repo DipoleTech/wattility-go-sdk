@@ -4,9 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"math/rand"
 	"net"
-	"time"
 )
 
 type Client struct {
@@ -28,9 +26,9 @@ var (
 	ErrorApp = errors.New("app id or app secret is error")
 )
 
-func init() {
-	rand.Seed(time.Now().UnixNano())
-}
+//func init() {
+//	rand.Seed(time.Now().UnixNano())
+//}
 
 func NewClient(appId, appSecret string) (*Client, error) {
 	if len(appId) != 16 || len(appSecret) != 32 {
