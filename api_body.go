@@ -11,7 +11,10 @@ type AuthBody struct {
 type LoadBaseSummaryBody struct {
 	HouseholdNumber string  `json:"household_number"` // 户号
 	DatetimeAt      string  `json:""`                 // 当前功率时间点
-	Power           float64 `json:"power"`            // 瞬时功率
+	PredictedValue  float64 `json:"power"`            // 瞬时功率 预测值
+	BaseValue       float64 `json:"base_value"`       // 基线值
+	RealValue       float64 `json:"real_value"`       // 实时值
+	SettlementValue float64 `json:"settlement_value"` // 结算值
 }
 
 // 发电因子
