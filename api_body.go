@@ -69,7 +69,7 @@ type OrderFinishBody struct {
 			SettlementValue float64 `json:"settlement_value"` // 结算值
 		} `json:"summary"`
 		Statistics struct {
-			TotalPower  float64 `json:"total_power"`  // 累计响应量
+			SubPower    float64 `json:"total_power"`  // 累计响应量
 			AvgPower    float64 `json:"avg_power"`    // 平均响应量
 			TargetPower float64 `json:"target_power"` // 目标响应量
 		} `json:"statistics"`
