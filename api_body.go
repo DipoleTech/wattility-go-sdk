@@ -64,8 +64,8 @@ type OrderPendingBody struct {
 type OrderPendingStrategyBody struct {
 	OrderId       uint64 `json:"order_id"`
 	HouseholdData []struct {
-		HouseholdNumber string   `json:"household_number"` // 户号
-		Strategy        []string `json:"strategy"`         // 策略
+		HouseholdNumber string `json:"household_number"` // 户号
+		Strategy        string `json:"strategy"`         // 策略
 	} `json:"household_data"`
 }
 
@@ -73,8 +73,9 @@ type OrderPendingStrategyBody struct {
 type OrderConfirmedBody struct {
 	OrderId       uint64 `json:"order_id"`
 	HouseholdData []struct {
-		HouseholdNumber string   `json:"household_number"` // 户号
-		Strategy        []string `json:"strategy"`         // 策略
+		HouseholdNumber string `json:"household_number"` // 户号
+		Strategy        string `json:"strategy"`         // 策略
+		CustomStrategy  string `json:"custom_strategy"`  // 自定义策
 	} `json:"household_data"`
 }
 
