@@ -18,8 +18,8 @@ type Client struct {
 }
 
 type ReceiveHandle struct {
-	LoadBaseSummaryRec func(receive []byte)
-	LoadBaseFactorRec  func(receive []byte)
+	LoadBasePredictionRec func(receive []byte)
+	LoadBaseFactorRec     func(receive []byte)
 }
 
 var (
@@ -98,8 +98,8 @@ func (c *Client) StartConn() {
 			case 0:
 				c.Auth(string(msg.Data))
 			case 1001:
-				if c.recHandle.LoadBaseSummaryRec != nil {
-					go c.recHandle.LoadBaseSummaryRec(msg.Data)
+				if c.recHandle.LoadBasePredictionRec != nil {
+					go c.recHandle.LoadBasePredictionRec(msg.Data)
 				}
 			case 1002:
 				if c.recHandle.LoadBaseFactorRec != nil {

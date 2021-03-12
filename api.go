@@ -64,10 +64,14 @@ func (c *Client) do(id uint32, body interface{}) error {
 	return err
 }
 
-func (c *Client) LoadBaseSummary(body []LoadBaseSummaryBody) error {
+func (c *Client) LoadBasePrediction(body []LoadBasePredictionRes) error {
 	return c.do(1001, body)
 }
 
 func (c *Client) LoadBaseFactor(body []LoadBaseFactorBody) error {
 	return c.do(1002, body)
+}
+
+func (c *Client) LoadBasePredictionDaily(body []LoadBasePredictionDaily) error {
+	return c.do(1003, body)
 }
