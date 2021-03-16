@@ -23,8 +23,8 @@ type LoadBasePredictionRes struct {
 	} `json:"prediction"`
 }
 type LoadBasePredictionReq struct {
-	Start           string
-	End             string
+	Start           time.Time
+	End             time.Time
 	HouseholdNumber []string `json:"household_number"`
 }
 
