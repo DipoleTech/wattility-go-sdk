@@ -16,6 +16,7 @@ type LoadBasePredictionDaily struct {
 }
 
 type LoadBasePredictionRes struct {
+	OrderId         uint64
 	HouseholdNumber string `json:"household_number"` // 户号
 	Prediction      []struct {
 		RecordAt       time.Time `json:"record_at"`       // 当前功率时间点
@@ -23,6 +24,7 @@ type LoadBasePredictionRes struct {
 	} `json:"prediction"`
 }
 type LoadBasePredictionReq struct {
+	OrderId         uint64
 	Start           time.Time
 	End             time.Time
 	HouseholdNumber []string `json:"household_number"`
