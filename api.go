@@ -64,7 +64,7 @@ func (c *Client) do(id uint32, body interface{}) error {
 	return err
 }
 
-func (c *Client) LoadBasePrediction(body []LoadBasePredictionRes) error {
+func (c *Client) LoadBasePrediction(body LoadBasePredictionRes) error {
 	return c.do(1001, body)
 }
 

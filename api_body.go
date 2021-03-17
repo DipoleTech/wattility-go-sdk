@@ -16,12 +16,14 @@ type LoadBasePredictionDaily struct {
 }
 
 type LoadBasePredictionRes struct {
-	OrderId         uint64
-	HouseholdNumber string `json:"household_number"` // 户号
-	Prediction      []struct {
-		RecordAt       time.Time `json:"record_at"`       // 当前功率时间点
-		PredictedValue float64   `json:"predicted_value"` // 瞬时功率 预测值
-	} `json:"prediction"`
+	OrderId       uint64
+	HouseholdData []struct {
+		HouseholdNumber string `json:"household_number"` // 户号
+		Prediction      []struct {
+			RecordAt       time.Time `json:"record_at"`       // 当前功率时间点
+			PredictedValue float64   `json:"predicted_value"` // 瞬时功率 预测值
+		} `json:"prediction"`
+	}
 }
 type LoadBasePredictionReq struct {
 	OrderId         uint64
