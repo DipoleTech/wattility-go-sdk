@@ -98,22 +98,29 @@ type OrderConfirmedBody struct {
 }
 
 // 指令结束后服务端发送数据
-type OrderFinishBody struct {
+type OrderSettleBody struct {
 	OrderId       uint64 `json:"order_id"`
 	HouseholdData []struct {
-		HouseholdNumber string `json:"household_number"` // 户号
-		CorrectPercent  int    `json:"correct_percent"`  // 准确率
-		Summary         []struct {
-			RecordAt        string  `json:"record_at"`        // 当前功率时间点
-			PredictedValue  float64 `json:"predicted_value"`  // 瞬时功率 预测值
-			BaseValue       float64 `json:"base_value"`       // 基线值
-			RealValue       float64 `json:"real_value"`       // 实时值
-			SettlementValue float64 `json:"settlement_value"` // 结算值
-		} `json:"summary"`
-		Statistics struct {
-			SumPower    float64 `json:"sum_power"`    // 累计响应量
-			AvgPower    float64 `json:"avg_power"`    // 平均响应量
-			TargetPower float64 `json:"target_power"` // 目标响应量
-		} `json:"statistics"`
 	} `json:"household_data"`
+}
+
+type OrderSettleBodyHousehold struct {
+	HouseholdNumber string                    `json:"household_number"` // 户号
+	CorrectPercent  int                       `json:"correct_percent"`  // 准确率
+	Summary         []OrderSettleBodySummary  `json:"summary"`
+	Statistics      OrderSettleBodyStatistics `json:"statistics"`
+}
+
+type OrderSettleBodySummary struct {
+	RecordAt       string  `json:"record_at"`       // 当前功率时间点
+	PredictedValue float64 `json:"predicted_value"` // 瞬时功率 预测值
+	BaseValue      float64 `json:"base_value"`      // 基线值
+	RealValue      float64 `json:"real_value"`      // 实时值
+	SettleValue    float64 `json:"settle_value"`    // 结算值
+}
+
+type OrderSettleBodyStatistics struct {
+	SumPower    float64 `json:"sum_power"`    // 累计响应量
+	AvgPower    float64 `json:"avg_power"`    // 平均响应量
+	TargetPower float64 `json:"target_power"` // 目标响应量
 }
