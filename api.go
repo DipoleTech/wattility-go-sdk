@@ -75,3 +75,7 @@ func (c *Client) LoadBaseFactor(body []LoadBaseFactorBody) error {
 func (c *Client) LoadBasePredictionDaily(body []LoadBasePredictionDaily) error {
 	return c.do(1003, body)
 }
+
+func (c *Client) OrderStrategy(body OrderStrategyBody) error {
+	return c.do(1005, body)
+}

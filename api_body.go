@@ -79,21 +79,12 @@ type OrderPendingBody struct {
 }
 
 // 指令创建后客户端发送策略
-type OrderPendingStrategyBody struct {
+type OrderStrategyBody struct {
 	OrderId       uint64 `json:"order_id"`
 	HouseholdData []struct {
 		HouseholdNumber string `json:"household_number"` // 户号
 		Strategy        string `json:"strategy"`         // 策略
-	} `json:"household_data"`
-}
-
-// 指令确认发布后服务端发送策略
-type OrderConfirmedBody struct {
-	OrderId       uint64 `json:"order_id"`
-	HouseholdData []struct {
-		HouseholdNumber string `json:"household_number"` // 户号
-		Strategy        string `json:"strategy"`         // 策略
-		CustomStrategy  string `json:"custom_strategy"`  // 自定义策
+		CustomeStrategy string `json:"custome_strategy"`
 	} `json:"household_data"`
 }
 
