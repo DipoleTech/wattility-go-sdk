@@ -20,6 +20,7 @@ type Client struct {
 type ReceiveHandle struct {
 	LoadBasePredictionRec func(receive []byte)
 	LoadBaseFactorRec     func(receive []byte)
+	OrderInfoRec          func(receive []byte)
 }
 
 var (
@@ -104,6 +105,10 @@ func (c *Client) StartConn() {
 			case 1002:
 				if c.recHandle.LoadBaseFactorRec != nil {
 					go c.recHandle.LoadBaseFactorRec(msg.Data)
+				}
+			case 1004:
+				if c.recHandle.OrderInfoRec != nil {
+					go c.recHandle.OrderInfoRec(msg.Data)
 				}
 			default:
 			}

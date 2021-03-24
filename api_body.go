@@ -99,9 +99,8 @@ type OrderConfirmedBody struct {
 
 // 指令结束后服务端发送数据
 type OrderSettleBody struct {
-	OrderId       uint64 `json:"order_id"`
-	HouseholdData []struct {
-	} `json:"household_data"`
+	OrderId       uint64                     `json:"order_id"`
+	HouseholdData []OrderSettleBodyHousehold `json:"household_data"`
 }
 
 type OrderSettleBodyHousehold struct {
@@ -112,11 +111,11 @@ type OrderSettleBodyHousehold struct {
 }
 
 type OrderSettleBodySummary struct {
-	RecordAt       string  `json:"record_at"`       // 当前功率时间点
-	PredictedValue float64 `json:"predicted_value"` // 瞬时功率 预测值
-	BaseValue      float64 `json:"base_value"`      // 基线值
-	RealValue      float64 `json:"real_value"`      // 实时值
-	SettleValue    float64 `json:"settle_value"`    // 结算值
+	RecordAt     time.Time `json:"record_at"`     // 当前功率时间点
+	PredictValue float64   `json:"predict_value"` // 瞬时功率 预测值
+	BaseValue    float64   `json:"base_value"`    // 基线值
+	RealValue    float64   `json:"real_value"`    // 实时值
+	SettleValue  float64   `json:"settle_value"`  // 结算值
 }
 
 type OrderSettleBodyStatistics struct {
