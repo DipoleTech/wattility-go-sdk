@@ -100,12 +100,20 @@ type OrderConfirmedBody struct {
 // 指令结束后服务端发送数据
 type OrderSettleBody struct {
 	OrderId       uint64                     `json:"order_id"`
+	OrderName     string                     `json:"order_name"`
+	OrderType     string                     `json:"order_type"`
+	ResponseType  string                     `json:"response_type"`
+	TargetPower   float64                    `json:"target_power"` // 响应目标量
+	StartAt       time.Time                  `json:"start_at"`     // 响应开始时间
+	ExpiredAt     time.Time                  `json:"expired_at"`   // 响应结束时间
+	DeadlineAt    time.Time                  `json:"deadline_at"`  // 截止时间
 	HouseholdData []OrderSettleBodyHousehold `json:"household_data"`
 }
 
 type OrderSettleBodyHousehold struct {
 	HouseholdNumber string                    `json:"household_number"` // 户号
 	CorrectPercent  int                       `json:"correct_percent"`  // 准确率
+	Power           float64                   `json:"power"`
 	Summary         []OrderSettleBodySummary  `json:"summary"`
 	Statistics      OrderSettleBodyStatistics `json:"statistics"`
 }
