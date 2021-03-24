@@ -62,7 +62,7 @@ func (dp *DataPack) Unpack(binaryData []byte) (*Message, error) {
 		return nil, err
 	}
 
-	if msg.DataLen > 4096 {
+	if msg.DataLen > 409600 {
 		return nil, errors.New("too large msg data received")
 	}
 
