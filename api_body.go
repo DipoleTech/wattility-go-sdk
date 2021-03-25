@@ -126,9 +126,9 @@ type OrderSettleBodyStatistics struct {
 type OrderSettleFinishBody struct {
 	OrderId         uint64    `json:"order_id"`
 	HouseholdNumber string    `json:"household_number"`
-	RecordAt        time.Time `json:"record_at"`     // 当前功率时间点
-	PredictValue    float64   `json:"predict_value"` // 瞬时功率 预测值
-	BaseValue       float64   `json:"base_value"`    // 基线值
-	RealValue       float64   `json:"real_value"`    // 实时值
-	SettleValue     float64   `json:"settle_value"`  // 结算值
+	PredictValue    float64   `json:"predict_value"`  // 瞬时功率 预测值
+	BaseValue       float64   `json:"base_value"`     // 基线值
+	SettleValue     float64   `json:"settle_value"`   // 结算值
+	ResponseValue   float64   `json:"response_value"` // 响应值
+	RecordAt        time.Time `json:"record_at"`      // 当前功率时间点
 }
