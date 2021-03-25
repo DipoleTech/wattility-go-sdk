@@ -122,3 +122,13 @@ type OrderSettleBodyStatistics struct {
 	AvgPower    float64 `json:"avg_power"`    // 平均响应量
 	TargetPower float64 `json:"target_power"` // 目标响应量
 }
+
+type OrderSettleFinishBody struct {
+	OrderId         uint64    `json:"order_id"`
+	HouseholdNumber string    `json:"household_number"`
+	RecordAt        time.Time `json:"record_at"`     // 当前功率时间点
+	PredictValue    float64   `json:"predict_value"` // 瞬时功率 预测值
+	BaseValue       float64   `json:"base_value"`    // 基线值
+	RealValue       float64   `json:"real_value"`    // 实时值
+	SettleValue     float64   `json:"settle_value"`  // 结算值
+}
