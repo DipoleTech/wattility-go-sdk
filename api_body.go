@@ -88,6 +88,13 @@ type OrderStrategyBody struct {
 	} `json:"household_data"`
 }
 
+type OrderCustomeStrategyBody struct {
+	OrderId         uint64 `json:"order_id"`
+	HouseholdNumber string `json:"household_number"` // 户号
+	Strategy        string `json:"strategy"`         // 策略
+	CustomeStrategy string `json:"custome_strategy"`
+}
+
 // 指令结束后服务端发送数据
 type OrderSettleBody struct {
 	OrderId       uint64                     `json:"order_id"`
