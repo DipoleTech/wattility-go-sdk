@@ -15,6 +15,7 @@ type Client struct {
 	logger     Logger
 	sign       *Sign
 	recHandle  *ReceiveHandle
+	DisConnect func()
 }
 
 type ReceiveHandle struct {
@@ -75,6 +76,10 @@ func (c *Client) StartConn() {
 		headData := make([]byte, dp.GetHeadLen())
 		_, err := io.ReadFull(c.socketConn, headData)
 		if err != nil {
+			if err == io.EOF {
+				fmt.Println("conn disconnect")
+				c.DisConnect()
+			}
 			c.logger.Print("read head error")
 			break
 		}
