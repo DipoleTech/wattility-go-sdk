@@ -77,8 +77,10 @@ func (c *Client) StartConn() {
 		_, err := io.ReadFull(c.socketConn, headData)
 		if err != nil {
 			if err == io.EOF {
-				fmt.Println("conn disconnect")
-				c.DisConnect()
+				if c.DisConnect != nil {
+					c.DisConnect()
+				}
+				c.logger.Print("conn disconnect")
 			}
 			c.logger.Print("read head error")
 			break
