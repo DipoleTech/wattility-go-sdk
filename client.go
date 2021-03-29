@@ -64,11 +64,11 @@ func (c *Client) SetRecHandle(handle *ReceiveHandle) {
 	c.recHandle = handle
 }
 
-func (c *Client) StartConn() {
+func (c *Client) StartConn() error {
 	conn, err := net.Dial("tcp", c.host)
 	if err != nil {
 		c.logger.Print(err.Error())
-		return
+		return err
 	}
 	c.socketConn = conn
 	for {
@@ -90,7 +90,7 @@ func (c *Client) StartConn() {
 		msgHead, err := dp.Unpack(headData)
 		if err != nil {
 			c.logger.Print(fmt.Sprint("server unpack err:", err))
-			return
+			return err
 		}
 		if msgHead.GetDataLen() > 0 {
 			//msg 是有data数据的，需要再次读取data数据
@@ -101,7 +101,7 @@ func (c *Client) StartConn() {
 			_, err := io.ReadFull(c.socketConn, msg.Data)
 			if err != nil {
 				c.logger.Print(fmt.Sprint("server unpack data err:", err))
-				return
+				return err
 			}
 			c.logger.Print(fmt.Sprint("==> Recv Msg: ID=", msg.Id, ", len=", msg.DataLen, ", data=", string(msg.Data)))
 			switch msg.Id {
@@ -131,4 +131,5 @@ func (c *Client) StartConn() {
 			}
 		}
 	}
+	return nil
 }
