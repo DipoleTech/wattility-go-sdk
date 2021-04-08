@@ -85,7 +85,7 @@ func (c *Client) StartConn() {
 				}
 				c.logger.Print("conn disconnect")
 			}
-			c.logger.Print("read head error")
+			c.logger.Print(fmt.Sprintf("read head error: %v", err))
 			break
 		}
 
