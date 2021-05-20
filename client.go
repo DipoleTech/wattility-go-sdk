@@ -24,6 +24,7 @@ type ReceiveHandle struct {
 	OrderInfoRec            func(receive []byte)
 	OrderCustomeStrategyRec func(receive []byte)
 	OrderFinishRec          func(receive []byte)
+	AppInfoSync             func(receive []byte)
 }
 
 var (
@@ -129,6 +130,10 @@ func (c *Client) StartConn() {
 			case 1006:
 				if c.recHandle.OrderFinishRec != nil {
 					go c.recHandle.OrderFinishRec(msg.Data)
+				}
+			case 1007:
+				if c.recHandle.AppInfoSync != nil {
+					go c.recHandle.AppInfoSync(msg.Data)
 				}
 			default:
 			}

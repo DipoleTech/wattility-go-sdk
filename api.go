@@ -79,3 +79,7 @@ func (c *Client) LoadBasePredictionDaily(body []LoadBasePredictionDaily) error {
 func (c *Client) OrderStrategy(body OrderStrategyBody) error {
 	return c.do(1005, body)
 }
+
+func (c *Client) AppInfoSync(body AppSyncBody) error {
+	return c.do(1007, body)
+}
