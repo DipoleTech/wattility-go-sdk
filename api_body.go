@@ -1,6 +1,8 @@
 package wattility_go_sdk
 
-import "time"
+import (
+	"time"
+)
 
 type AuthBody struct {
 	AppId     string `json:"app_id"`
@@ -32,7 +34,7 @@ type LoadBasePredictionReq struct {
 	HouseholdNumber []string `json:"household_number"`
 }
 
-// 发电因子
+// LoadBaseFactorBody 发电因子
 type LoadBaseFactorBody struct {
 	HouseholdNumber   string  `json:"household_number"`     // 户号
 	DeviceSn          string  `json:"device_sn"`            // 设备号
@@ -57,7 +59,7 @@ type LoadBaseFactorBody struct {
 	WinterDownMinLoad float64 `json:"winter_down_min_load"` // 冬季
 }
 
-// 指令创建后服务端发送指令
+// OrderPendingBody 指令创建后服务端发送指令
 type OrderPendingBody struct {
 	OrderId       uint64    `json:"order_id"`
 	OrderName     string    `json:"order_name"`
@@ -95,7 +97,7 @@ type OrderCustomeStrategyBody struct {
 	CustomeStrategy string `json:"custome_strategy"`
 }
 
-// 指令结束后服务端发送数据
+// OrderSettleBody 指令结束后服务端发送数据
 type OrderSettleBody struct {
 	OrderId       uint64                     `json:"order_id"`
 	OrderName     string                     `json:"order_name"`
@@ -138,4 +140,12 @@ type OrderSettleFinishBody struct {
 	SettleValue     float64   `json:"settle_value"`   // 结算值
 	ResponseValue   float64   `json:"response_value"` // 响应值
 	RecordAt        time.Time `json:"record_at"`      // 当前功率时间点
+}
+
+type AppSyncBody struct {
+	AppId         string `json:"app_id"`
+	HouseholdData []struct {
+		HouseholdNumber string `json:"household_number"`
+		EleMeterID      string `json:"ele_meter_id"`
+	}
 }

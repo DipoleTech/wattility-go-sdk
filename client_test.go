@@ -6,8 +6,8 @@ import (
 
 var (
 	tcpAddr    = "127.0.0.1:8999"
-	testKey    = "SiFsBWBddAcH2Xvz"
-	testSecret = "mw10RahT4MfmdCadJm8xQQbbOejcnSpq"
+	testKey    = "zp7mOixKK8Sd0O7M"
+	testSecret = "jnioIwHT2lWFWrsq3h9bK7fBRHjZqQ0l"
 )
 
 func TestClient_StartConn(t *testing.T) {
@@ -20,6 +20,7 @@ func TestClient_StartConn(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			c, _ := NewClient(testKey, testSecret)
 			c.SetHost(tcpAddr)
+			c.SetDebug()
 			c.StartConn()
 		})
 	}
