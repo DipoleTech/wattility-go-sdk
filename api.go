@@ -7,6 +7,7 @@ import (
 
 type APIData struct {
 	AppID       string `json:"app_id"`
+	Timestamp   int64  `json:"timestamp"`
 	SignContent []byte `json:"sign_content"`
 }
 
@@ -19,11 +20,13 @@ func (c *Client) Auth(messageData string) {
 			AppId:     c.appId,
 			Timestamp: time.Now().Unix(),
 		}
+
 		b, _ := json.Marshal(body)
 		bs := c.sign.Encrypt(b)
 
 		var data = APIData{
 			AppID:       c.appId,
+			Timestamp:   body.Timestamp,
 			SignContent: bs,
 		}
 		msgData, _ := json.Marshal(data)
@@ -47,6 +50,7 @@ func (c *Client) do(id uint32, body interface{}) error {
 
 	var data = APIData{
 		AppID:       c.appId,
+		Timestamp:   time.Now().Unix(),
 		SignContent: bs,
 	}
 

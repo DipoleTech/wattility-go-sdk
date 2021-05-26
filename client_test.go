@@ -7,7 +7,7 @@ import (
 var (
 	tcpAddr    = "127.0.0.1:8999"
 	testKey    = "zp7mOixKK8Sd0O7M"
-	testSecret = "jnioIwHT2lWFWrsq3h9bK7fBRHjZqQ0l"
+	testSecret = "qiHRQerjVkcGIyoDEi0phCsoxhdODUAF"
 )
 
 func TestClient_StartConn(t *testing.T) {
