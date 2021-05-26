@@ -4,11 +4,6 @@ import (
 	"time"
 )
 
-type AuthBody struct {
-	AppId     string `json:"app_id"`
-	Timestamp int64  `json:"timestamp"`
-}
-
 type LoadBasePredictionDaily struct {
 	HouseholdNumber string `json:"household_number"` // 户号
 	Prediction      []struct {

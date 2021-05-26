@@ -1,4 +1,4 @@
-package api
+package sh
 
 type Properties struct {
 	Key   string `json:"key"`

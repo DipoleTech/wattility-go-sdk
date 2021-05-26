@@ -1,4 +1,4 @@
-package api
+package sh
 
 type DrResponse struct {
 	Root        string `json:"root"`
