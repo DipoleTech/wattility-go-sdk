@@ -11,32 +11,9 @@ type APIData struct {
 	SignContent []byte `json:"sign_content"`
 }
 
-func (c *Client) Auth(messageData string) {
-	switch messageData {
-	case "auth":
-		dp := NewDataPack()
-
-		var body = AuthBody{
-			AppId:     c.appId,
-			Timestamp: time.Now().Unix(),
-		}
-
-		b, _ := json.Marshal(body)
-		bs := c.sign.Encrypt(b)
-
-		var data = APIData{
-			AppID:       c.appId,
-			Timestamp:   body.Timestamp,
-			SignContent: bs,
-		}
-		msgData, _ := json.Marshal(data)
-
-		msg, _ := dp.Pack(NewMsgPackage(0, msgData))
-		_, _ = c.socketConn.Write(msg)
-	case "OK":
-		return
-	}
-
+type AuthBody struct {
+	AppId     string `json:"app_id"`
+	Timestamp int64  `json:"timestamp"`
 }
 
 func (c *Client) do(id uint32, body interface{}) error {
@@ -68,22 +45,30 @@ func (c *Client) do(id uint32, body interface{}) error {
 	return err
 }
 
-func (c *Client) LoadBasePrediction(body LoadBasePredictionRes) error {
-	return c.do(1001, body)
-}
+func (c *Client) Auth(messageData string) {
+	switch messageData {
+	case "auth":
+		dp := NewDataPack()
 
-func (c *Client) LoadBaseFactor(body []LoadBaseFactorBody) error {
-	return c.do(1002, body)
-}
+		var body = AuthBody{
+			AppId:     c.appId,
+			Timestamp: time.Now().Unix(),
+		}
 
-func (c *Client) LoadBasePredictionDaily(body []LoadBasePredictionDaily) error {
-	return c.do(1003, body)
-}
+		b, _ := json.Marshal(body)
+		bs := c.sign.Encrypt(b)
 
-func (c *Client) OrderStrategy(body OrderStrategyBody) error {
-	return c.do(1005, body)
-}
+		var data = APIData{
+			AppID:       c.appId,
+			Timestamp:   body.Timestamp,
+			SignContent: bs,
+		}
+		msgData, _ := json.Marshal(data)
 
-func (c *Client) AppInfoSync(body AppSyncBody) error {
-	return c.do(1007, body)
+		msg, _ := dp.Pack(NewMsgPackage(0, msgData))
+		_, _ = c.socketConn.Write(msg)
+	case "OK":
+		return
+	}
+
 }
