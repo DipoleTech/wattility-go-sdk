@@ -163,3 +163,16 @@ type ResourceCurveData struct {
 	ResourceID string       `json:"resourceID"`
 	Regular    RegularCurve `json:"regular"`
 }
+
+type MeterAsset struct {
+	Mrid string `json:"mrid"`
+}
+
+type Target struct {
+	GroupID        []string         `json:"groupID"`
+	ResourceID     []string         `json:"resourceID"`
+	DnID           []string         `json:"dnID"`
+	PartyID        []string         `json:"partyID"`
+	EndDeviceAsset []EndDeviceAsset `json:"endDeviceAsset"`
+	MeterAsset     []MeterAsset     `json:"meterAsset"`
+}

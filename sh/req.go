@@ -68,3 +68,17 @@ type PowerForecastReportRequest struct {
 	CreatedDateTime   string              `json:"createdDateTime"`
 	ResourceCurveData []ResourceCurveData `json:"resourceCurveData"`
 }
+
+type CreateOptRequest struct {
+	DrRequest
+	OptID           string `json:"optID"`
+	OptType         string `json:"optType"`
+	OptReason       string `json:"optReason"`
+	MarketContext   string `json:"marketContext"`
+	CreatedDateTime string `json:"createdDateTime"`
+}
+
+type CancelOptRequest struct {
+	DrRequest
+	OptID string `json:"optID"`
+}
