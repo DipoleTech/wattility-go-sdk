@@ -33,3 +33,29 @@ type QueryEventResponse struct {
 type DataReportResponse struct {
 	DrResponse
 }
+
+type QualifiedEventID struct {
+	EventID            string `json:"eventID"`
+	ModificationNumber int    `json:"modificationNumber"`
+}
+
+type EventResponse struct {
+	OptType          OptType            `json:"optType"`
+	Code             int                `json:"code"`
+	Description      string             `json:"description"`
+	RequestID        string             `json:"requestID"`
+	QualifiedEventID []QualifiedEventID `json:"qualifiedEventID"`
+}
+
+type CreateEventResponse struct {
+	DrResponse
+	EventResponses []EventResponse `json:"eventResponses"`
+}
+
+type PollResponse struct {
+	Root    string `json:"root"`
+	Version int    `json:"version"`
+	Code    int    `json:"code"`
+	Reason  string `json:"reason"`
+	DnID    string `json:"dnID"`
+}

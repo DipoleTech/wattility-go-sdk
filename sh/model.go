@@ -176,3 +176,10 @@ type Target struct {
 	EndDeviceAsset []EndDeviceAsset `json:"endDeviceAsset"`
 	MeterAsset     []MeterAsset     `json:"meterAsset"`
 }
+
+type OptType string
+
+type DistributeEventRequest struct {
+	DrRequest
+	Events []Event `json:"events"`
+}
