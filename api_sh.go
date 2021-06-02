@@ -2,18 +2,12 @@ package wattility_go_sdk
 
 import "github.com/DipoleTech/wattility-go-sdk/sh"
 
-func (c *Client) MomentDataReport(body sh.MomentDataReportRequest) error {
+func (c *Client) MetaDataReport(body sh.CreateRegistrationRequest) error {
 	return c.do(2001, body)
 }
-
-func (c *Client) IntervalDataReport(body sh.IntervalDataReportRequest) error {
+func (c *Client) ResourceReport(body sh.ResourceReportRequest) error {
 	return c.do(2002, body)
 }
-
-func (c *Client) LoadForecastReport(body sh.LoadForecastReportRequest) error {
+func (c *Client) MomentDataReport(body sh.MomentDataReportRequest) error {
 	return c.do(2003, body)
-}
-
-func (c *Client) PowerForecastReport(body sh.PowerForecastReportRequest) error {
-	return c.do(2004, body)
 }
