@@ -144,3 +144,9 @@ type AppSyncBody struct {
 		EleMeterID      string `json:"ele_meter_id"`
 	}
 }
+
+//  sh sync body
+
+type AppSHInfoSyncBody struct {
+	HouseholdeNumber []string `json:"householde_number"`
+}

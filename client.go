@@ -25,6 +25,7 @@ type ReceiveHandle struct {
 	OrderCustomeStrategyRec func(receive []byte)
 	OrderFinishRec          func(receive []byte)
 	AppInfoSync             func(receive []byte)
+	AppSHInfoSync           func(receive []byte)
 	MetaDataReport          func(receive []byte)
 	ResourceReport          func(receive []byte)
 }
@@ -65,6 +66,7 @@ func (c *Client) SetRecHandle(handle *ReceiveHandle) {
 	c.recRouter[1005] = handle.OrderCustomeStrategyRec
 	c.recRouter[1006] = handle.OrderFinishRec
 	c.recRouter[1007] = handle.AppInfoSync
+	c.recRouter[2000] = handle.AppSHInfoSync
 	c.recRouter[2001] = handle.MetaDataReport
 	c.recRouter[2002] = handle.ResourceReport
 }
