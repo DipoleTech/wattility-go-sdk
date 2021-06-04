@@ -12,6 +12,6 @@ func (c *Client) MetaDataReport(body sh.CreateRegistrationRequest) error {
 func (c *Client) ResourceReport(body sh.ResourceReportRequest) error {
 	return c.do(2002, body)
 }
-func (c *Client) MomentDataReport(body sh.MomentDataReportRequest) error {
+func (c *Client) MomentDataReport(body MomentDataSyncBody) error {
 	return c.do(2003, body)
 }

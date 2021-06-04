@@ -150,3 +150,9 @@ type AppSyncBody struct {
 type AppSHInfoSyncBody struct {
 	HouseholdeNumber []string `json:"householde_number"`
 }
+
+type MomentDataSyncBody struct {
+	HouseholdNumber string    `json:"household_number"`
+	Value           float64   `json:"value"`
+	RecordAt        time.Time `json:"record_at"`
+}

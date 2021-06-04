@@ -64,9 +64,9 @@ type Event []struct {
 }
 
 type Metric struct {
-	MetricName string `json:"metricName"`
-	Multiplier string `json:"multiplier"`
-	Symbol     string `json:"symbol"`
+	MetricName MetricName `json:"metricName"`
+	Multiplier string     `json:"multiplier"`
+	Symbol     string     `json:"symbol"`
 }
 
 type EndDeviceAsset struct {
@@ -89,7 +89,7 @@ type SamplingRate struct {
 
 type ReportDescription struct {
 	RID              int              `json:"rID"`
-	ReadingType      string           `json:"readingType"`
+	ReadingType      ReadingType      `json:"readingType"`
 	Metric           Metric           `json:"metric"`
 	ReportSubject    ReportSubject    `json:"reportSubject"`
 	ReportDataSource ReportDataSource `json:"reportDataSource"`
@@ -177,7 +177,32 @@ type Target struct {
 	MeterAsset     []MeterAsset     `json:"meterAsset"`
 }
 
+// OptType enum
+// optIn	参与
+// optOut	不参与
 type OptType string
+
+// MetricName enum
+// AP	有功功率
+// AP_E	有功电能
+// AP_PE	发电量
+type MetricName string
+
+// ReadingType enum
+// Direct_Read	直接读数(常用于电表)
+// Net	净值
+// Allocated	分配值
+// Estimated	估计值
+// Summed	求和（常用于表示总体数值）
+// Derived	推断值
+// Mean	平均值
+// Peak	最高值
+// Hybrid	混合值，针对需求响应聚合商下辖用户，可能存在不同用户读取类型不同的情况
+// Contract	合同值
+// Projected	预测值（常用于表示总体预测）
+// x-RMS	均方根
+// x-notApplicable	不适用
+type ReadingType string
 
 type DistributeEventRequest struct {
 	DrRequest
