@@ -153,6 +153,7 @@ type AppSHInfoSyncBody struct {
 
 type MomentDataSyncBody struct {
 	HouseholdNumber string    `json:"household_number"`
+	MetricName      string    `json:"metric_name"`
 	Value           float64   `json:"value"`
 	RecordAt        time.Time `json:"record_at"`
 }
