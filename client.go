@@ -122,5 +122,4 @@ func (c *Client) StartConn() {
 			}
 		}
 	}
-	return
 }
